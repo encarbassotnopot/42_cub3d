@@ -2,6 +2,7 @@
 # define CUB3D_H
 # include "MLX42.h"
 # include "libft.h"
+# include "mathematics.h"
 # include <fcntl.h>
 # include <float.h>
 # include <math.h>
@@ -10,7 +11,7 @@
 # include <unistd.h>
 # define WIDTH 512
 # define HEIGHT 512
-# include "mathematics.h"
+# define FOV M_PI / 3 // 60 graus
 
 typedef struct s_player
 {

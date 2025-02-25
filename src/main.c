@@ -7,25 +7,11 @@ static void	ft_error(void)
 	exit(EXIT_FAILURE);
 }
 
-static void	ft_key_hook(mlx_key_data_t keydata, t_game *game)
+void	ft_mov_key_hook(mlx_key_data_t keydata, t_game *game)
 {
-	mlx_t	*mlx;
-	float	rot_speed;
 	float	mov_speed;
 
-	rot_speed = M_PI / 100;
 	mov_speed = 0.05;
-	mlx = ((t_game *)game)->mlx;
-	/* Rotation */
-	if (keydata.key == MLX_KEY_LEFT)
-		game->player.dir.i -= rot_speed;
-	else if (keydata.key == MLX_KEY_RIGHT)
-		game->player.dir.i += rot_speed;
-	else if (keydata.key == MLX_KEY_UP)
-		game->player.dir.j -= rot_speed;
-	else if (keydata.key == MLX_KEY_DOWN)
-		game->player.dir.j += rot_speed;
-	/* Movement */
 	if (keydata.key == MLX_KEY_W)
 	{
 		game->player.pos.i += cos(game->player.dir.i) * mov_speed;
@@ -48,8 +34,32 @@ static void	ft_key_hook(mlx_key_data_t keydata, t_game *game)
 	}
 	printf("Player position: (%f, %f)\n", game->player.pos.i,
 		game->player.pos.j);
+}
+
+void	ft_rot_key_hook(mlx_key_data_t keydata, t_game *game)
+{
+	float	rot_speed;
+
+	rot_speed = M_PI / 100;
+	if (keydata.key == MLX_KEY_LEFT)
+		game->player.dir.i -= rot_speed;
+	else if (keydata.key == MLX_KEY_RIGHT)
+		game->player.dir.i += rot_speed;
+	else if (keydata.key == MLX_KEY_UP)
+		game->player.dir.j -= rot_speed;
+	else if (keydata.key == MLX_KEY_DOWN)
+		game->player.dir.j += rot_speed;
 	printf("Player direction: (%f, %f)\n", game->player.dir.i,
 		game->player.dir.j);
+}
+
+void	ft_key_hook(mlx_key_data_t keydata, t_game *game)
+{
+	printf("key: %d\n", keydata.key);
+	if (ft_isascii(keydata.key))
+		ft_mov_key_hook(keydata, game);
+	else
+		ft_rot_key_hook(keydata, game);
 }
 
 int32_t	main(void)
@@ -70,6 +80,7 @@ int32_t	main(void)
 	// mlx_put_pixel(img, 0, 0, 0xFF0000FF);
 	// Register a hook and pass mlx as an optional param.
 	// NOTE: Do this before calling mlx_loop!
+	// mlx_key_hook(game.mlx, ft_key_hook, &game);
 	mlx_key_hook(game.mlx, ft_key_hook, &game);
 	mlx_loop(game.mlx);
 	mlx_terminate(game.mlx);
