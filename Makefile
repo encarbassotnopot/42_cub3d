@@ -9,7 +9,7 @@ SRC_DIR = $(CURDIR)/src
 BUILD_DIR = $(CURDIR)/build
 BUILD_DIRS = $(sort $(dir $(OBJ_FILES)))
 
-NAME = minirt
+NAME = cub3d
 CFLAGS = -Wall -Wextra -g -MMD $(HDR_FLAGS)
 
 CC = gcc
