@@ -62,23 +62,23 @@ void	create_map(char *file, t_game *game)
 	char	*line;
 	char	*joined_lines;
 
+	fd = open_file(file);
 	joined_lines = ft_strdup("");
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-	{
-		free(joined_lines);
-		ft_error_msg("open file error");
-	}
 	line = get_next_line(fd);
 	while (line)
 	{
 		if (line[0] == '\n')
+		{
+			free(line);
+			line = get_next_line(fd);
 			continue ;
-		else if (is_map(line))
+		}
+		if (is_map(line))
 			fill_map(&joined_lines, line);
 		else
 			fill_info(line, game);
 		free(line);
+		line = get_next_line(fd);
 	}
 	close(fd);
 	game->map->mapa = ft_split(joined_lines, '\n');
@@ -95,5 +95,5 @@ void	init_map(char *file, t_game *game)
 	create_map(file, game);
 	validate_map(game);
 	validate_info(game);
-	// validate_walls(game);
+	validate_walls(game);
 }

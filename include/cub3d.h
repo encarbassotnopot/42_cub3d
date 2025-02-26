@@ -48,9 +48,11 @@ void		init_structs(t_game *game);
 // validaters:
 void		validate_map(t_game *game);
 void		validate_info(t_game *game);
+void		validate_walls(t_game *game);
 // void	validate_walls(t_game *game);
 
 char		*get_next_line(int fd);
+int			open_file(char *file);
 
 // debugers:
 void		debug_map(t_map *map);

@@ -1,6 +1,16 @@
 
 #include "cub3d.h"
 
+int	open_file(char *file)
+{
+	int	fd;
+
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		ft_error_msg("open file error");
+	return (fd);
+}
+
 int	is_player(char c)
 {
 	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
