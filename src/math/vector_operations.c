@@ -1,13 +1,24 @@
 #include "mathematics.h"
 
 /**
- * Adds two vectors together. The result is saved in the first vector.
- * Returns a pointer to the original vector.
+ * Adds a vector to another. The result is saved in the first vector.
+ * Returns a pointer to the first vector.
  */
 t_vec2	*add_to_vec(t_vec2 *orig, t_vec2 *other)
 {
 	orig->i += other->i;
 	orig->j += other->j;
+	return (orig);
+}
+
+/**
+ * Subtracts a vector from another. The result is saved in the first vector.
+ * Returns a pointer to the first vector.
+ */
+t_vec2	*subt_from_vec(t_vec2 *orig, t_vec2 *other)
+{
+	orig->i -= other->i;
+	orig->j -= other->j;
 	return (orig);
 }
 
