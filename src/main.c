@@ -50,16 +50,12 @@ void	ft_rot_key_hook(mlx_key_data_t keydata, t_game *game)
 
 void	ft_key_hook(mlx_key_data_t keydata, t_game *game)
 {
-	t_vec2	edge;
-
 	printf("key: %d\n", keydata.key);
 	if (ft_isascii(keydata.key))
 		ft_mov_key_hook(keydata, game);
 	else
 		ft_rot_key_hook(keydata, game);
-	edge = (t_vec2){game->player.pos.i, game->player.pos.j};
-	find_next_edge(game, &edge);
-	printf("Next edge: (%f, %f)\n", edge.i, edge.j);
+	render_scene(game);
 }
 
 int32_t	main(void)
@@ -67,8 +63,8 @@ int32_t	main(void)
 	t_game	game;
 
 	game.map = (char *[6]){"11111", "10001", "10101", "10001", "11111", NULL};
-	game.player.pos = (t_vec2){0.5, 0.5};
-	game.player.dir = 0;
+	game.player.pos = (t_vec2){1.3, 1.2};
+	game.player.dir = M_PI_2;
 	game.mlx = mlx_init(WIDTH, HEIGHT, "cub3d", false);
 	if (!game.mlx)
 		ft_error();

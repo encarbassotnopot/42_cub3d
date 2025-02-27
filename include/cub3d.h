@@ -24,6 +24,6 @@ typedef struct s_game
 	t_player	player;
 	mlx_image_t	*img;
 }				t_game;
-void			find_next_edge(t_game *game, t_vec2 *current);
 
+void			render_scene(t_game *game);
 #endif

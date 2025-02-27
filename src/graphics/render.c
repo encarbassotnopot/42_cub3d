@@ -29,6 +29,7 @@ void	find_next_edge(t_game *game, t_vec2 *current)
 	// update the current position
 	current->i += cosf(game->player.dir) * fmin(steps.i, steps.j);
 	current->j += sinf(game->player.dir) * fmin(steps.i, steps.j);
+	printf("Found edge: (%f, %f)\n", current->i, current->j);
 }
 
 void	raycast(t_game *game, int x)
@@ -38,6 +39,10 @@ void	raycast(t_game *game, int x)
 
 	ray = (t_vec2){game->player.pos.i, game->player.pos.j};
 	find_next_edge(game, &ray);
+//	while (game->map[(int)ray.i][(int)ray.j] != '1' && ray.i > -1 && ray.j > -1
+//		&& ray.i < 6 && ray.j < 6)
+		find_next_edge(game, &ray);
+	printf("Next edge: (%f, %f)\n", ray.i, ray.j);
 }
 
 void	render_scene(t_game *game)
@@ -45,6 +50,7 @@ void	render_scene(t_game *game)
 	int	x;
 
 	x = -1;
-	while (++x < WIDTH)
-		raycast(game, x);
+	// while (++x < WIDTH)
+	//	raycast(game, x);
+	raycast(game, 0);
 }
