@@ -97,8 +97,9 @@ int32_t	main(void)
 	game.img = mlx_new_image(game.mlx, WIDTH, HEIGHT);
 	if (!game.img || (mlx_image_to_window(game.mlx, game.img, 0, 0) < 0))
 		ft_error();
-	paintmap(&game);
+	// paintmap(&game);
 	mlx_key_hook(game.mlx, (mlx_keyfunc)ft_key_hook, &game);
+	mlx_loop_hook(game.mlx, render_scene, &game);
 	mlx_loop(game.mlx);
 	mlx_terminate(game.mlx);
 	return (EXIT_SUCCESS);
