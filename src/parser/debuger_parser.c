@@ -1,22 +1,21 @@
-#include "cub3d.h"
+#include "parser.h"
 
-void	debug_map(t_map *map)
+void	debug_map(char **mapa)
 {
 	int	i;
 
 	i = 0;
-	if (!map || !map->mapa)
+	if (!mapa)
 	{
 		printf("no existeix mapa.\n");
 		return ;
 	}
 	printf("Mapa:\n");
-	while (map->mapa[i])
+	while (mapa[i])
 	{
-		printf("%s\n", map->mapa[i]);
+		printf("%s\n", mapa[i]);
 		i++;
 	}
-	printf("num jugadors: %d\n", map->player_count);
 }
 
 void	debug_info(t_info *info)

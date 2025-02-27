@@ -1,13 +1,13 @@
 
-#include "cub3d.h"
+#include "parser.h"
 
-int	open_file(char *file)
+int	open_file(char *file, t_game *game)
 {
 	int	fd;
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		ft_error_msg("open file error");
+		ft_error_msg("open file error", game);
 	return (fd);
 }
 
@@ -37,7 +37,7 @@ int	is_map(char *line)
 	return (1);
 }
 
-void	init_info_struc(t_game *game)
+void	init_structs(t_game *game)
 {
 	game->info.no = NULL;
 	game->info.so = NULL;
@@ -45,14 +45,6 @@ void	init_info_struc(t_game *game)
 	game->info.ea = NULL;
 	game->info.floor = NULL;
 	game->info.ceiling = NULL;
-}
-
-void	init_structs(t_game *game)
-{
-	game->map = malloc(sizeof(t_map));
-	if (!game->map)
-		ft_error_msg("error malloc map");
-	game->map->mapa = NULL;
-	game->map->player_count = 0;
-	init_info_struc(game);
+	game->map = NULL;
+	game->aux_map = NULL;
 }

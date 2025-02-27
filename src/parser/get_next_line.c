@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "parser.h"
 
 static char	*ft_free(char **str)
 {
@@ -7,29 +7,31 @@ static char	*ft_free(char **str)
 	return (NULL);
 }
 
-static char	*readmore(char *located, int fd)
+static char	*readmore(char *located, int fd, int *readed)
 {
 	char	*buffer;
-	int		readed;
+	char	*tmp;
 
-	readed = 1;
+	*readed = 1;
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (ft_free(&located));
 	buffer[0] = '\0';
-	while (readed > 0 && !ft_strchr(buffer, '\n'))
+	while (*readed > 0 && !ft_strchr(buffer, '\n'))
 	{
-		readed = read(fd, buffer, BUFFER_SIZE);
-		if (readed > 0)
+		*readed = read(fd, buffer, BUFFER_SIZE);
+		if (*readed > 0)
 		{
-			buffer[readed] = '\0';
-			located = ft_strjoin(located, buffer);
+			buffer[*readed] = '\0';
+			tmp = ft_strjoin(located, buffer);
+			free(located);
+			located = tmp;
 		}
-		else if (readed == 0)
+		else if (*readed == 0)
 			return (ft_free(&buffer), ft_free(&located));
 	}
 	ft_free(&buffer);
-	if (readed == -1)
+	if (*readed == -1)
 		return (ft_free(&located));
 	return (located);
 }
@@ -73,13 +75,15 @@ char	*get_next_line(int fd)
 {
 	static char	*located;
 	char		*line;
+	int			readed;
 
+	readed = 1;
 	if (!located)
 		located = ft_strdup("");
 	if (fd < 0)
 		return (NULL);
 	if (!located || (located && !ft_strchr(located, '\n')))
-		located = readmore(located, fd);
+		located = readmore(located, fd, &readed);
 	if (!located)
 		return (NULL);
 	line = ft_full_line(located);

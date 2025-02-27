@@ -1,7 +1,6 @@
+#include "parser.h"
 
-#include "cub3d.h"
-
-static char	*find_init_end_path(char *line)
+static char	*find_init_end_path(char *line, t_game *game)
 {
 	int		i;
 	int		j;
@@ -23,31 +22,31 @@ static char	*find_init_end_path(char *line)
 	if (fd == -1)
 	{
 		free(path);
-		ft_error_msg("error en img path");
+		ft_error_msg("error en img path", game);
 	}
 	close(fd);
 	return (path);
 }
 
-void	fill_info(char *line, t_game *game)
+static void	fill_info(char *line, t_game *game)
 {
 	while (ft_isspace(*line))
 		line++;
 	if (!ft_strncmp(line, "NO", 2))
-		game->info.no = find_init_end_path(line);
+		game->info.no = find_init_end_path(line, game);
 	else if (!ft_strncmp(line, "SO", 2))
-		game->info.so = find_init_end_path(line);
+		game->info.so = find_init_end_path(line, game);
 	else if (!ft_strncmp(line, "EA", 2))
-		game->info.ea = find_init_end_path(line);
+		game->info.ea = find_init_end_path(line, game);
 	else if (!ft_strncmp(line, "WE", 2))
-		game->info.we = find_init_end_path(line);
+		game->info.we = find_init_end_path(line, game);
 	else if (!ft_strncmp(line, "F", 1) || (!ft_strncmp(line, "C", 1)))
-		printf("falta implementar> color_parse(line, game)\n");
+		printf("falta color_parse(line, game);\n");
 	else
-		ft_error_msg("Error info configuration");
+		ft_error_msg("Error info configuration", game);
 }
 
-void	fill_map(char **joined_lines, char *line)
+static void	fill_map(char **joined_lines, char *line)
 {
 	char	*temp;
 
@@ -56,13 +55,13 @@ void	fill_map(char **joined_lines, char *line)
 	*joined_lines = temp;
 }
 
-void	create_map(char *file, t_game *game)
+static void	create_map(char *file, t_game *game)
 {
 	int		fd;
 	char	*line;
 	char	*joined_lines;
 
-	fd = open_file(file);
+	fd = open_file(file, game);
 	joined_lines = ft_strdup("");
 	line = get_next_line(fd);
 	while (line)
@@ -81,16 +80,16 @@ void	create_map(char *file, t_game *game)
 		line = get_next_line(fd);
 	}
 	close(fd);
-	game->map->mapa = ft_split(joined_lines, '\n');
+	game->map = ft_split(joined_lines, '\n');
 	free(joined_lines);
 }
 
 void	init_map(char *file, t_game *game)
 {
 	if (!file)
-		ft_error_msg("error file");
+		ft_error_msg("error file", game);
 	if (ft_strncmp(file + (ft_strlen(file) - 4), ".cub", 4) != 0)
-		ft_error_msg("wrong file extension");
+		ft_error_msg("wrong file extension", game);
 	init_structs(game);
 	create_map(file, game);
 	validate_map(game);
