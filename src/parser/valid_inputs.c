@@ -18,7 +18,7 @@ void	calc_map_size(t_game *game)
 	game->row_len = ft_calloc(game->map_height, sizeof(int));
 	i = -1;
 	while (game->map[++i])
-		game->row_len[i] = ft_strlen(i);
+		game->row_len[i] = ft_strlen(game->map[i]);
 }
 
 void	validate_map(t_game *game)
@@ -36,7 +36,7 @@ void	validate_map(t_game *game)
 		{
 			if (setup_player(game->map[i][j]))
 				player_count++;
-			else if (ft_strchr("01 ", game->map[i][j]) == NULL)
+			else if (ft_strchr("X01 ", game->map[i][j]) == NULL)
 				ft_error_msg("error map character", game);
 			j++;
 		}
