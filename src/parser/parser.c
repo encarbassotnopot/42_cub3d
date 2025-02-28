@@ -93,6 +93,7 @@ void	init_map(char *file, t_game *game)
 	init_structs(game);
 	create_map(file, game);
 	validate_map(game);
+	calc_map_size(game);
 	validate_info(game);
 	validate_walls(game);
 }
