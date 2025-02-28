@@ -1,4 +1,4 @@
-SOURCES = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*/*.c)
+SOURCES = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*/*.c) $(wildcard $(SRC_DIR)/*/*/*.c)
 SRC_FILES = $(SOURCES) #$(addprefix $(SRC_DIR)/,$(SOURCES))
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC_FILES))
 DEP_FILES = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.d,$(SRC_FILES))
@@ -10,7 +10,7 @@ BUILD_DIR = $(CURDIR)/build
 BUILD_DIRS = $(sort $(dir $(OBJ_FILES)))
 
 NAME = cub3d
-CFLAGS = -Wall -Wextra -Werror -g -MMD $(HDR_FLAGS)
+CFLAGS = -Wall -Wextra -g -MMD $(HDR_FLAGS)
 
 CC = gcc
 
