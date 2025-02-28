@@ -3,18 +3,10 @@
 
 static void	free_infos(t_info *info)
 {
-	if (info->no)
-		free(info->no);
-	if (info->so)
-		free(info->so);
-	if (info->we)
-		free(info->we);
-	if (info->ea)
-		free(info->ea);
-	if (info->ceiling)
-		free(info->ceiling);
-	if (info->floor)
-		free(info->floor);
+	free(info->no);
+	free(info->so);
+	free(info->we);
+	free(info->ea);
 }
 
 void	ft_free_map(char **map)
@@ -45,11 +37,6 @@ void	free_strucs(t_game *game)
 	{
 		ft_free_map(game->map);
 		free(game->map);
-	}
-	if (game->aux_map)
-	{
-		ft_free_map(game->aux_map);
-		free(game->aux_map);
 	}
 	free_infos(&game->info);
 }

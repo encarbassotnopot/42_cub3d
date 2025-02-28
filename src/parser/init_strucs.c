@@ -29,8 +29,7 @@ int	is_map(char *line)
 		return (0);
 	while (line[i] != '\n')
 	{
-		if (line[i] != '0' && line[i] != '1' && line[i] != 'N' && line[i] != 'S'
-			&& line[i] != 'E' && line[i] != 'W' && line[i] != ' ')
+		if (!ft_strchr("01NSEW ", line[i]))
 			return (0);
 		i++;
 	}
@@ -43,8 +42,9 @@ void	init_structs(t_game *game)
 	game->info.so = NULL;
 	game->info.we = NULL;
 	game->info.ea = NULL;
-	game->info.floor = NULL;
-	game->info.ceiling = NULL;
+	game->info.floor = 0xFFFFFFFF;
+	game->info.ceiling = 0xFFFF;
 	game->map = NULL;
-	game->aux_map = NULL;
+	game->map_height = 0;
+	game->row_len = NULL;
 }

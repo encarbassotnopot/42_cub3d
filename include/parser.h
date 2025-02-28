@@ -8,13 +8,11 @@
 # endif
 
 // inits
-
 void	init_structs(t_game *game);
 
 // validaters:
 void	validate_map(t_game *game);
 void	validate_info(t_game *game);
-void	validate_walls(t_game *game);
 void	validate_walls(t_game *game);
 
 // auxiliars
