@@ -34,15 +34,13 @@ void	ft_mov_key_hook(mlx_key_data_t keydata, t_game *game)
 	}
 	printf("Player position: (%f, %f)\n", game->player.pos.i,
 		game->player.pos.j);
-	mlx_put_pixel(game->img, game->player.pos.i * WIDTH / 7, game->player.pos.j
-		* HEIGHT / 7, 0xFF00FF);
 }
 
 void	ft_rot_key_hook(mlx_key_data_t keydata, t_game *game)
 {
 	float	rot_speed;
 
-	rot_speed = M_PI / 360;
+	rot_speed = M_PI / 180;
 	if (keydata.key == MLX_KEY_LEFT)
 		game->player.dir -= rot_speed;
 	else if (keydata.key == MLX_KEY_RIGHT)
@@ -57,28 +55,6 @@ void	ft_key_hook(mlx_key_data_t keydata, t_game *game)
 		ft_mov_key_hook(keydata, game);
 	else
 		ft_rot_key_hook(keydata, game);
-	render_scene(game);
-}
-
-void	paintmap(t_game *game)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (++i < WIDTH)
-	{
-		j = -1;
-		while (++j < HEIGHT)
-		{
-			if (game->map[i * 7 / WIDTH][j * 7 / HEIGHT] == '0')
-				mlx_put_pixel(game->img, i, j, 0xFF);
-			else
-				mlx_put_pixel(game->img, i, j, 0xFFFFFFFF);
-		}
-	}
-	mlx_put_pixel(game->img, game->player.pos.i * WIDTH / 7, game->player.pos.j
-		* HEIGHT / 7, 0xFF00FF);
 }
 
 int32_t	run_mlx(t_game *game)
@@ -89,7 +65,6 @@ int32_t	run_mlx(t_game *game)
 	game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	if (!game->img || (mlx_image_to_window(game->mlx, game->img, 0, 0) < 0))
 		ft_error();
-	// paintmap(&game);
 	mlx_key_hook(game->mlx, (mlx_keyfunc)ft_key_hook, &game);
 	mlx_loop_hook(game->mlx, (void (*)(void *))render_scene, &game);
 	mlx_loop(game->mlx);

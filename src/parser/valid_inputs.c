@@ -34,9 +34,9 @@ void	validate_map(t_game *game)
 		j = 0;
 		while (game->map[i][j])
 		{
-			if (setup_player(game->map[i][j]))
+			if (setup_player(game, i, j, game->map[i][j]))
 				player_count++;
-			else if (ft_strchr("X01 ", game->map[i][j]) == NULL)
+			else if (ft_strchr("01 ", game->map[i][j]) == NULL)
 				ft_error_msg("error map character", game);
 			j++;
 		}

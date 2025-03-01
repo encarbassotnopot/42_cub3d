@@ -20,7 +20,7 @@ void	calc_map_size(t_game *game);
 char	*get_next_line(int fd);
 int		open_file(char *file, t_game *game);
 int		is_map(char *line);
-int		setup_player(char c);
+int		setup_player(t_game *game, int x, int y, char c);
 
 // debugers:
 void	debug_map(char **mapa);
