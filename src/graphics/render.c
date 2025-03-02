@@ -79,7 +79,6 @@ void	draw_wall(t_game *game, float dist, int x, float angle)
 	height = 1 / dist * HEIGHT;
 	while (++y < HEIGHT)
 	{
-		printf("drawing wall at %d, %d\n", x, y);
 		if (y < HEIGHT / 2 - height / 2)
 			mlx_put_pixel(game->img, x, y, 0xFFFF);
 		else if (y < height / 2 + HEIGHT / 2)
@@ -99,7 +98,6 @@ void	draw_oob(t_game *game, int x)
 	y = -1;
 	while (++y < HEIGHT)
 	{
-		printf("drawing oob at %d, %d\n", x, y);
 		mlx_put_pixel(game->img, x, y, 0xFF00FFFF);
 	}
 }
@@ -120,10 +118,6 @@ void	render_scene(t_game *game)
 	step = FOV / WIDTH;
 	while (++x < WIDTH)
 	{
-		printf("casting ray at x %d\n", x);
-		printf("ray starting at %f,%f\n", game->player.pos.i,
-			game->player.pos.j);
-		printf("angle is %f\n", angle * 180 / M_PI);
 		ray = (t_vec2){game->player.pos.i, game->player.pos.j};
 		if (raycast(game, &ray, angle))
 		{
