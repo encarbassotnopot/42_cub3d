@@ -37,44 +37,74 @@ void	find_next_edge(t_vec2 *current, float angle)
  */
 char	get_map_element(t_game *game, t_vec2 *point, float angle)
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
+	char	face;
 
+	face = 0;
 	x = floorf(point->i);
 	y = floorf(point->j);
-	if (cosf(angle) < 0 && (float)x == point->i)
-		x--;
-	if (sinf(angle) < 0 && (float)y == point->j)
-		y--;
+	if ((float)x == point->i)
+	{
+		face = 'W';
+		if (cosf(angle) < 0)
+		{
+			face = 'E';
+			x--;
+		}
+	}
+	if ((float)y == point->j)
+	{
+		face = 'N';
+		if (sinf(angle) < 0)
+		{
+			face = 'S';
+			y--;
+		}
+	}
+	if (face == 0)
+		printf("ray hit at %f, %f with angle %f\n", point->i, point->j, angle
+			* 180 / M_PI);
 	if (y > game->map_height || y < 0)
 		return (0);
 	if (x > game->row_len[y] || x < 0)
 		return (0);
+	if (game->map[x][y] == '1')
+		return (face);
 	return (game->map[x][y]);
 }
 
 /**
  * Propagates the given ray it until an edge is hit or out of bounds.
- * Returns 1 if an edge is hit, 0 otherwise.
+ * Returns which face has been het if an edge is found, 0 otherwise.
  */
-int	raycast(t_game *game, t_vec2 *ray, float angle)
+char	raycast(t_game *game, t_vec2 *ray, float angle)
 {
 	find_next_edge(ray, angle);
 	while (get_map_element(game, ray, angle) == 'X')
 		find_next_edge(ray, angle);
-	if (get_map_element(game, ray, angle) == '1')
-		return (1);
-	return (0);
+	return (get_map_element(game, ray, angle));
 }
 
 /**
  * Renders a vertical strip of wall from it's distance.
  */
-void	draw_wall(t_game *game, float dist, int x, float angle)
+void	draw_wall(t_game *game, float dist, int x, char face)
 {
-	int	y;
-	int	height;
+	int			y;
+	int			height;
+	uint32_t	color;
 
+	if (face == 'N')
+		color = 0xFFFFFF;
+	else if (face == 'S')
+		color = 0xFFFF00FF;
+	else if (face == 'W')
+		color = 0xFF00FF;
+	else if (face == 'E')
+		color = 0xFF0000FF;
+	else
+		color = 0xFF;
 	y = -1;
 	height = 1 / dist * HEIGHT;
 	while (++y < HEIGHT)
@@ -82,7 +112,7 @@ void	draw_wall(t_game *game, float dist, int x, float angle)
 		if (y < HEIGHT / 2 - height / 2)
 			mlx_put_pixel(game->img, x, y, 0xFFFF);
 		else if (y < height / 2 + HEIGHT / 2)
-			mlx_put_pixel(game->img, x, y, 0xFF00FF);
+			mlx_put_pixel(game->img, x, y, color);
 		else
 			mlx_put_pixel(game->img, x, y, 0xFFFFFFFF);
 	}
@@ -109,23 +139,23 @@ void	render_scene(t_game *game)
 {
 	int		x;
 	float	angle;
-	float	step;
 	t_vec2	ray;
 	float	dist;
+	char	face;
 
 	x = -1;
 	angle = game->player.dir - FOV / 2;
-	step = FOV / WIDTH;
 	while (++x < WIDTH)
 	{
 		ray = (t_vec2){game->player.pos.i, game->player.pos.j};
-		if (raycast(game, &ray, angle))
+		face = raycast(game, &ray, angle);
+		if (face)
 		{
 			dist = abs_vec(subt_from_vec(&ray, &game->player.pos));
-			draw_wall(game, dist, x, angle);
+			draw_wall(game, dist, x, face);
 		}
 		else
 			draw_oob(game, x);
-		angle += step;
+		angle += FOV / WIDTH;
 	}
 }
