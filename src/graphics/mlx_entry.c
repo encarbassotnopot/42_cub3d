@@ -40,7 +40,7 @@ void	ft_rot_key_hook(mlx_key_data_t keydata, t_game *game)
 {
 	float	rot_speed;
 
-	rot_speed = M_PI / 180;
+	rot_speed = M_PI / 90;
 	if (keydata.key == MLX_KEY_LEFT)
 		game->player.dir -= rot_speed;
 	else if (keydata.key == MLX_KEY_RIGHT)
