@@ -42,12 +42,10 @@ char	get_map_element(t_game *game, t_vec2 *point, float angle)
 	int		y;
 	char	face;
 
-	face = 0;
-	x = floorf(point->i);
-	y = floorf(point->j);
-	if (x < 0 || y < 0)
-		printf("error, x,y: %d %d\n", x, y);
-	if ((float)x == point->i)
+	face = 1;
+	x = floorf(point->i) - 1;
+	y = floorf(point->j) - 1;
+	if ((float)x + 1 == point->i)
 	{
 		face = 'W';
 		if (cosf(angle) < 0)
@@ -56,7 +54,7 @@ char	get_map_element(t_game *game, t_vec2 *point, float angle)
 			x--;
 		}
 	}
-	if ((float)y == point->j)
+	if ((float)y + 1 == point->j)
 	{
 		face = 'N';
 		if (sinf(angle) < 0)
@@ -92,7 +90,6 @@ char	raycast(t_game *game, t_vec2 *ray, float angle)
 void	render_scene(t_game *game)
 {
 	int		x;
-	float	angle;
 	t_vec2	ray;
 	float	dist;
 	char	face;
