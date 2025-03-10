@@ -15,7 +15,7 @@ void	calc_map_size(t_game *game)
 
 	while (game->map[game->map_height])
 		game->map_height++;
-	game->row_len = ft_calloc(game->map_height, sizeof(int));
+	game->row_len = ft_calloc(game->map_height + 1, sizeof(int));
 	i = -1;
 	while (game->map[++i])
 		game->row_len[i] = ft_strlen(game->map[i]);

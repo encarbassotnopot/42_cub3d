@@ -40,17 +40,18 @@ void	ft_rot_key_hook(mlx_key_data_t keydata, t_game *game)
 {
 	float	rot_speed;
 
-	rot_speed = M_PI / 180;
+	rot_speed = M_PI / 90;
 	if (keydata.key == MLX_KEY_LEFT)
 		game->player.dir -= rot_speed;
 	else if (keydata.key == MLX_KEY_RIGHT)
 		game->player.dir += rot_speed;
+	game->player.dir += M_PI * 2;
+	game->player.dir = fmod(game->player.dir, M_PI * 2);
 	printf("Player direction: %F\n", game->player.dir * 180 / M_PI);
 }
 
 void	ft_key_hook(mlx_key_data_t keydata, t_game *game)
 {
-	printf("key: %d\n", keydata.key);
 	if (ft_isascii(keydata.key))
 		ft_mov_key_hook(keydata, game);
 	else
@@ -60,6 +61,8 @@ void	ft_key_hook(mlx_key_data_t keydata, t_game *game)
 
 int32_t	run_mlx(t_game *game)
 {
+	game->player.pos.i++;
+	game->player.pos.j++;
 	game->mlx = mlx_init(WIDTH, HEIGHT, "cub3d", false);
 	if (!game->mlx)
 		ft_error();
