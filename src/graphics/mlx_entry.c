@@ -45,31 +45,14 @@ void	ft_rot_key_hook(mlx_key_data_t keydata, t_game *game)
 		game->player.dir -= rot_speed;
 	else if (keydata.key == MLX_KEY_RIGHT)
 		game->player.dir += rot_speed;
+	game->player.dir += M_PI * 2;
+	game->player.dir = fmod(game->player.dir, M_PI * 2);
 	printf("Player direction: %F\n", game->player.dir * 180 / M_PI);
-}
-
-void	printmap(t_game *game)
-{
-	int	i;
-
-	i = -1;
-	while (++i < game->map_height)
-	{
-		if (i == (int)game->player.pos.j && (int)game->player.pos.i > 0
-			&& (int)game->player.pos.i < game->row_len[i])
-			printf("%.*sP%s\n", (int)game->player.pos.i, game->map[i],
-				game->map[i] + (int)game->player.pos.i + 1);
-		else
-			printf("%s\n", game->map[i]);
-	}
 }
 
 void	ft_key_hook(mlx_key_data_t keydata, t_game *game)
 {
-	printf("key: %d\n", keydata.key);
-	if (keydata.key == MLX_KEY_M)
-		printmap(game);
-	else if (ft_isascii(keydata.key))
+	if (ft_isascii(keydata.key))
 		ft_mov_key_hook(keydata, game);
 	else
 		ft_rot_key_hook(keydata, game);
@@ -78,6 +61,8 @@ void	ft_key_hook(mlx_key_data_t keydata, t_game *game)
 
 int32_t	run_mlx(t_game *game)
 {
+	game->player.pos.i++;
+	game->player.pos.j++;
 	game->mlx = mlx_init(WIDTH, HEIGHT, "cub3d", false);
 	if (!game->mlx)
 		ft_error();
