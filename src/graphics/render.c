@@ -1,4 +1,5 @@
 #include "cub3d.h"
+#include "render.h"
 
 /**
  * Finds the next intersection with an edge in the given direction
@@ -44,6 +45,8 @@ char	get_map_element(t_game *game, t_vec2 *point, float angle)
 	face = 0;
 	x = floorf(point->i);
 	y = floorf(point->j);
+	if (x < 0 || y < 0)
+		printf("error, x,y: %d %d\n", x, y);
 	if ((float)x == point->i)
 	{
 		face = 'W';
@@ -84,52 +87,6 @@ char	raycast(t_game *game, t_vec2 *ray, float angle)
 }
 
 /**
- * Renders a vertical strip of wall from it's distance.
- */
-void	draw_wall(t_game *game, float dist, int x, char face)
-{
-	int			y;
-	int			height;
-	uint32_t	color;
-
-	if (face == 'N')
-		color = 0xFFFFFF;
-	else if (face == 'S')
-		color = 0xFFFF00FF;
-	else if (face == 'W')
-		color = 0xFF00FF;
-	else if (face == 'E')
-		color = 0xFF0000FF;
-	else
-		color = 0xFF;
-	y = -1;
-	height = 1 / dist * HEIGHT;
-	while (++y < HEIGHT)
-	{
-		if (y < HEIGHT / 2 - height / 2)
-			mlx_put_pixel(game->img, x, y, 0xFFFF);
-		else if (y < height / 2 + HEIGHT / 2)
-			mlx_put_pixel(game->img, x, y, color);
-		else
-			mlx_put_pixel(game->img, x, y, 0xFFFFFFFF);
-	}
-}
-
-/**
- * Renders a vertical strip of nothingness, as we are rendering out of bounds.
- */
-void	draw_oob(t_game *game, int x)
-{
-	int	y;
-
-	y = -1;
-	while (++y < HEIGHT)
-	{
-		mlx_put_pixel(game->img, x, y, 0xFF00FFFF);
-	}
-}
-
-/**
  * Well, renders the scene.
  */
 void	render_scene(t_game *game)
@@ -141,11 +98,10 @@ void	render_scene(t_game *game)
 	char	face;
 
 	x = -1;
-	angle = game->player.dir - FOV / 2;
 	while (++x < WIDTH)
 	{
 		ray = (t_vec2){game->player.pos.i, game->player.pos.j};
-		face = raycast(game, &ray, angle);
+		face = raycast(game, &ray, angle_from_x(x) + game->player.dir);
 		if (face)
 		{
 			dist = abs_vec(subt_from_vec(&ray, &game->player.pos));
@@ -153,6 +109,5 @@ void	render_scene(t_game *game)
 		}
 		else
 			draw_oob(game, x);
-		angle += FOV / WIDTH;
 	}
 }
