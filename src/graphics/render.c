@@ -62,16 +62,13 @@ char	get_map_element(t_game *game, t_vec2 *point, float angle)
 			y--;
 		}
 	}
-	if (face == 0)
-		printf("ray hit at %f, %f with angle %f\n", point->i, point->j, angle
-			* 180 / M_PI);
 	if (y > game->map_height || y < 0)
 		return (0);
 	if (x > game->row_len[y] || x < 0)
 		return (0);
-	if (game->map[x][y] == '1')
+	if (game->map[y][x] == '1')
 		return (face);
-	return (game->map[x][y]);
+	return (game->map[y][x]);
 }
 
 /**
