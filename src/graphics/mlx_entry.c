@@ -59,13 +59,33 @@ void	ft_key_hook(mlx_key_data_t keydata, t_game *game)
 	render_scene(game);
 }
 
+int	load_images(t_game *game)
+{
+	const char		*paths[4] = {game->info.no, game->info.so, game->info.ea,
+				game->info.we};
+	mlx_texture_t	*texture;
+	int				i;
+
+	i = -1;
+	while (++i < 4)
+	{
+		texture = mlx_load_png(paths[i]);
+		if (!texture)
+			ft_error_msg("Error opening texture\n", game);
+		game->walls[i] = mlx_texture_to_image(game->mlx, texture);
+		if (!game->walls[i])
+			ft_error_msg("Error creating image\n", game);
+	}
+}
+
 int32_t	run_mlx(t_game *game)
 {
 	game->player.pos.i++;
 	game->player.pos.j++;
 	game->mlx = mlx_init(WIDTH, HEIGHT, "cub3d", false);
 	if (!game->mlx)
-		ft_error();
+		ft_error_msg("Error initialising mlx\n", game);
+	load_images(game);
 	game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	if (!game->img || (mlx_image_to_window(game->mlx, game->img, 0, 0) < 0))
 		ft_error();

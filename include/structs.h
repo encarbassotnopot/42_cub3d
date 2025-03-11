@@ -1,6 +1,10 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 # include "cub3d.h"
+# define NORTH 0
+# define SOUTH 1
+# define EAST 2
+# define WEAST 3
 
 typedef struct s_info
 {
@@ -24,6 +28,7 @@ typedef struct s_game
 	char		**map;
 	t_player	player;
 	mlx_image_t	*img;
+	mlx_image_t	*walls[4];
 	int			map_height;
 	int			*row_len;
 	t_info		info;
