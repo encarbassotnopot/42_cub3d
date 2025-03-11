@@ -1,7 +1,7 @@
-NO ./img/wall.jpg
-SO ./img/wall.jpg
-WE ./img/wall.jpg
-EA ./img/wall.jpg
+NO ./img/red.png
+SO ./img/green.png
+WE ./img/blue.png
+EA ./img/yellow.png
 F 220,100,0
 C 225,30,0
 
