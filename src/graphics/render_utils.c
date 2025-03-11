@@ -2,34 +2,59 @@
 #include "render.h"
 
 /**
+ * Returns which color should be painted according to where a ray has
+ * hit a wall.
+ * Impact's coordinates are in relation to the wall, not the map. They must be
+ * in the range [0,1).
+ */
+uint32_t	get_wall_pixel(t_game *game, t_vec2 *impact, char orientation)
+{
+	int			face;
+	mlx_image_t	*wall;
+	int			x;
+	int			y;
+
+	if (orientation == 'N')
+		wall = game->walls[NORTH];
+	else if (orientation == 'S')
+		wall = game->walls[SOUTH];
+	else if (orientation == 'W')
+		wall = game->walls[WEAST];
+	else
+		wall = game->walls[EAST];
+	x = impact->i * wall->width;
+	y = impact->j * wall->height;
+	return (((uint32_t *)wall->pixels)[y * wall->width + x]);
+}
+
+/**
  * Renders a vertical strip of wall from it's distance.
  */
-void	draw_wall(t_game *game, float dist, int x, char face)
+void	draw_wall(t_game *game, t_vec2 *ray, int x, char face)
 {
-	int			y;
-	int			height;
-	uint32_t	color;
+	int		y;
+	int		view;
+	float	dist;
+	t_vec2	impact;
 
-	if (face == 'N')
-		color = 0xFFFFFF;
-	else if (face == 'S')
-		color = 0xFFFF00FF;
-	else if (face == 'W')
-		color = 0xFF00FF;
-	else if (face == 'E')
-		color = 0xFF0000FF;
+	if (face == 'N' || face == 'S')
+		impact.i = ray->i - (int)ray->i;
 	else
-		color = 0xFF;
+		impact.i = ray->j - (int)ray->j;
+	dist = abs_vec(subt_from_vec(ray, &game->player.pos));
 	y = -1;
-	height = 1 / dist * HEIGHT / cosf(angle_from_x(x));
+	view = 1 / dist * HEIGHT / cosf(angle_from_x(x));
 	while (++y < HEIGHT)
 	{
-		if (y < HEIGHT / 2 - height / 2)
-			mlx_put_pixel(game->img, x, y, 0xFFFF);
-		else if (y < height / 2 + HEIGHT / 2)
-			mlx_put_pixel(game->img, x, y, color);
+		if (y < HEIGHT / 2 - view / 2)
+			mlx_put_pixel(game->img, x, y, game->info.ceiling);
+		else if (y < view / 2 + HEIGHT / 2)
+		{
+			impact.j = (y - HEIGHT / 2) / view;
+			mlx_put_pixel(game->img, x, y, get_wall_pixel(game, &impact, face));
+		}
 		else
-			mlx_put_pixel(game->img, x, y, 0xFFFFFFFF);
+			mlx_put_pixel(game->img, x, y, game->info.floor);
 	}
 }
 

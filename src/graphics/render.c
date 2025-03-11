@@ -100,10 +100,7 @@ void	render_scene(t_game *game)
 		ray = (t_vec2){game->player.pos.i, game->player.pos.j};
 		face = raycast(game, &ray, angle_from_x(x) + game->player.dir);
 		if (face)
-		{
-			dist = abs_vec(subt_from_vec(&ray, &game->player.pos));
-			draw_wall(game, dist, x, face);
-		}
+			draw_wall(game, &ray, x, face);
 		else
 			draw_oob(game, x);
 	}
