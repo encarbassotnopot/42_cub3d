@@ -9,7 +9,6 @@
  */
 uint32_t	get_wall_pixel(t_game *game, t_vec2 *impact, char orientation)
 {
-	int			face;
 	mlx_image_t	*wall;
 	int			x;
 	int			y;
@@ -22,8 +21,9 @@ uint32_t	get_wall_pixel(t_game *game, t_vec2 *impact, char orientation)
 		wall = game->walls[WEAST];
 	else
 		wall = game->walls[EAST];
-	x = impact->i * wall->width;
-	y = impact->j * wall->height;
+	// bàsicament les imprecisions dels floats son una puta merda.
+	x = fmin(impact->i * wall->width, wall->width - 1);
+	y = fmin(impact->j * wall->height, wall->height - 1);
 	return (((uint32_t *)wall->pixels)[y * wall->width + x]);
 }
 
@@ -33,8 +33,9 @@ uint32_t	get_wall_pixel(t_game *game, t_vec2 *impact, char orientation)
 void	draw_wall(t_game *game, t_vec2 *ray, int x, char face)
 {
 	int		y;
-	int		view;
+	float	view;
 	float	dist;
+	float	step;
 	t_vec2	impact;
 
 	if (face == 'N' || face == 'S')
@@ -43,18 +44,18 @@ void	draw_wall(t_game *game, t_vec2 *ray, int x, char face)
 		impact.i = ray->j - (int)ray->j;
 	dist = abs_vec(subt_from_vec(ray, &game->player.pos));
 	y = -1;
-	view = 1 / dist * HEIGHT / cosf(angle_from_x(x));
+	view = HEIGHT / dist / cosf(angle_from_x(x));
+	step = 1 / view;
+	impact.j = (-HEIGHT + view) / 2 * step;
 	while (++y < HEIGHT)
 	{
-		if (y < HEIGHT / 2 - view / 2)
+		if (y < (HEIGHT - view) / 2)
 			mlx_put_pixel(game->img, x, y, game->info.ceiling);
-		else if (y < view / 2 + HEIGHT / 2)
-		{
-			impact.j = (y - HEIGHT / 2) / view;
+		else if (y < (HEIGHT + view) / 2)
 			mlx_put_pixel(game->img, x, y, get_wall_pixel(game, &impact, face));
-		}
 		else
 			mlx_put_pixel(game->img, x, y, game->info.floor);
+		impact.j += step;
 	}
 }
 
