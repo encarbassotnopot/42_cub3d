@@ -91,7 +91,6 @@ void	render_scene(t_game *game)
 {
 	int		x;
 	t_vec2	ray;
-	float	dist;
 	char	face;
 
 	x = -1;
