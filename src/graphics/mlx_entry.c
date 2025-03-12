@@ -61,18 +61,25 @@ void	ft_key_hook(mlx_key_data_t keydata, t_game *game)
 
 void	load_images(t_game *game)
 {
-	const char	*paths[4] = {game->info.no, game->info.so, game->info.ea,
-			game->info.we};
-	xpm_t		*texture;
-	int			i;
+	const char		*paths[4] = {game->info.no, game->info.so, game->info.ea,
+				game->info.we};
+	mlx_texture_t	*texture;
+	int				i;
 
 	i = -1;
 	while (++i < 4)
 	{
-		texture = mlx_load_xpm42(paths[i]);
+		if (ft_strlen(paths[i]) >= 4 && ft_strcmp(paths[i]
+				+ (ft_strlen(paths[i]) - 4), ".png") == 0)
+			texture = mlx_load_png(paths[i]);
+		else if (ft_strlen(paths[i]) >= 6 && ft_strcmp(paths[i]
+				+ (ft_strlen(paths[i]) - 6), ".xpm42") == 0)
+			texture = &mlx_load_xpm42(paths[i])->texture;
+		else
+			ft_error_msg("Invalid texture path\n", game);
 		if (!texture)
 			ft_error_msg("Error opening texture\n", game);
-		game->walls[i] = mlx_texture_to_image(game->mlx, &texture->texture);
+		game->walls[i] = mlx_texture_to_image(game->mlx, texture);
 		if (!game->walls[i])
 			ft_error_msg("Error creating image\n", game);
 	}
