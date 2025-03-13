@@ -1,5 +1,10 @@
 #include "parser.h"
 
+/**
+ * Checks that all textures (NO, SO, WE,
+ * 	EA) are present in the game's information structure.
+ * If any of them are missing, it displays an error message.
+ */
 void	validate_info(t_game *game)
 {
 	if (!game->info.no || !game->info.so || !game->info.we || !game->info.ea)
@@ -20,7 +25,10 @@ void	calc_map_size(t_game *game)
 	while (game->map[++i])
 		game->row_len[i] = ft_strlen(game->map[i]);
 }
-
+/**
+ * Checks that the map specifications (1 player,
+ * and only allowed characters: "01 ").
+ */
 void	validate_map(t_game *game)
 {
 	int	i;

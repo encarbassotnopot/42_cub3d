@@ -1,5 +1,11 @@
 #include "parser.h"
 
+/**
+ * Recursive function to perform a search across the entire map.
+
+	* fill the cells that are within the map boundaries and surrounded by walls with 'X'.
+ * Error if it detects an area not enclosed.
+ */
 static void	flood_fill(t_game *game, int i, int j, int rows)
 {
 	if (i < 0 || i >= rows || j < 0 || j >= (int)ft_strlen(game->map[i]))
@@ -14,7 +20,11 @@ static void	flood_fill(t_game *game, int i, int j, int rows)
 	flood_fill(game, i, j - 1, rows);
 	flood_fill(game, i, j + 1, rows);
 }
-
+/**
+ * Validates that the map is fully enclosed by walls.
+ * Calls flood_fill for each empty space.
+ * error if it detects an area not enclosed.
+ */
 void	validate_walls(t_game *game)
 {
 	int	len;

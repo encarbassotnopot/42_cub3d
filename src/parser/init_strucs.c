@@ -1,6 +1,10 @@
 
 #include "cub3d.h"
 
+/**
+ * Opens a file and returns the file descriptor.
+ * If an error occurs, it shows an error message.
+ */
 int	open_file(char *file, t_game *game)
 {
 	int	fd;
@@ -33,6 +37,10 @@ int	setup_player(t_game *game, int x, int y, char c)
 	return (1);
 }
 
+/**
+ * Checks if the line is part of the map.
+ * Returns 1 if valid, 0 otherwise.
+ */
 int	is_map(char *line)
 {
 	int	i;
@@ -51,6 +59,9 @@ int	is_map(char *line)
 	return (1);
 }
 
+/**
+ * Initializes game structures with default values.
+ */
 void	init_structs(t_game *game)
 {
 	game->info.no = NULL;
