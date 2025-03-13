@@ -101,8 +101,6 @@ static void	create_map(char *file, t_game *game)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (line[0] == '\n')
-			;
 		if (is_map(line))
 		{
 			fill_map(line, fd, game);
@@ -122,8 +120,8 @@ void	init_map(char *file, t_game *game)
 {
 	if (!file)
 		ft_error_msg("error file", game);
-	if (ft_strlen(file) >= 4 &&
-		ft_strncmp(file + (ft_strlen(file) - 4), ".cub", 4) != 0)
+	if (ft_strlen(file) >= 4 && ft_strncmp(file + (ft_strlen(file) - 4), ".cub",
+			4) != 0)
 		ft_error_msg("wrong file extension", game);
 	create_map(file, game);
 	validate_map(game);

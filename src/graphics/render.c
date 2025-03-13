@@ -63,9 +63,9 @@ char	get_map_element(t_game *game, t_vec2 *point, float angle)
 			y--;
 		}
 	}
-	if (y > game->map_height || y < 0)
+	if (y >= game->map_height || y < 0)
 		return (0);
-	if (x > game->row_len[y] || x < 0)
+	if (x >= game->row_len[y] || x < 0)
 		return (0);
 	if (game->map[y][x] == '1')
 		return (face);
