@@ -25,6 +25,7 @@ void	calc_map_size(t_game *game)
 	while (game->map[++i])
 		game->row_len[i] = ft_strlen(game->map[i]);
 }
+
 /**
  * Checks that the map specifications (1 player,
  * and only allowed characters: "01 ").

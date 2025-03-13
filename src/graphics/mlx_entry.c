@@ -57,7 +57,7 @@ void	ft_key_hook(mlx_key_data_t keydata, t_game *game)
 void	load_images(t_game *game)
 {
 	const char		*paths[4] = {game->info.no, game->info.so, game->info.ea,
-				game->info.we};
+		game->info.we};
 	mlx_texture_t	*texture;
 	int				i;
 

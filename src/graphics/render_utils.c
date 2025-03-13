@@ -21,7 +21,6 @@ uint32_t	get_wall_pixel(t_game *game, t_vec2 *impact, char orientation)
 		wall = game->walls[WEAST];
 	else
 		wall = game->walls[EAST];
-	// bàsicament les imprecisions dels floats son una puta merda.
 	x = fmin(impact->i * wall->width, wall->width - 1);
 	y = fmin(impact->j * wall->height, wall->height - 1);
 	return (((uint32_t *)wall->pixels)[y * wall->width + x]);
@@ -78,9 +77,9 @@ void	draw_oob(t_game *game, int x)
  */
 float	angle_from_x(int x)
 {
-	float normal_x;
-	float plane_size;
-	int plane_dist;
+	float	normal_x;
+	float	plane_size;
+	int		plane_dist;
 
 	plane_dist = 3;
 	normal_x = ((float)x * 2) / WIDTH - 0.5;
