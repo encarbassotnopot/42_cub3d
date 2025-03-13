@@ -25,7 +25,7 @@ int	setup_player(t_game *game, int x, int y, char c)
 {
 	if (!ft_strchr("NSWE", c))
 		return (0);
-	game->player.pos = (t_vec2){.i = x + 0.5, .j = y + 0.5};
+	game->player.pos = (t_vec2){.i = y + 0.5, .j = x + 0.5};
 	if (c == 'E')
 		game->player.dir = 0;
 	else if (c == 'S')
