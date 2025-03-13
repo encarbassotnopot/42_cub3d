@@ -45,7 +45,9 @@ void	ft_rot_key_hook(mlx_key_data_t keydata, t_game *game)
 
 void	ft_key_hook(mlx_key_data_t keydata, t_game *game)
 {
-	if (ft_isascii(keydata.key))
+	if (keydata.key == MLX_KEY_ESCAPE)
+		mlx_close_window(game->mlx);
+	else if (ft_isascii(keydata.key))
 		ft_mov_key_hook(keydata, game);
 	else
 		ft_rot_key_hook(keydata, game);
@@ -70,6 +72,7 @@ void	load_images(t_game *game)
 		if (!texture)
 			ft_error_msg("Error opening texture\n", game);
 		game->walls[i] = mlx_texture_to_image(game->mlx, texture);
+		mlx_delete_texture(texture);
 		if (!game->walls[i])
 			ft_error_msg("Error creating image\n", game);
 	}
@@ -89,6 +92,5 @@ int32_t	run_mlx(t_game *game)
 	mlx_key_hook(game->mlx, (mlx_keyfunc)ft_key_hook, game);
 	render_scene(game);
 	mlx_loop(game->mlx);
-	mlx_terminate(game->mlx);
 	return (EXIT_SUCCESS);
 }

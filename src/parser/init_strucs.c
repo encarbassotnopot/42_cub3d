@@ -64,13 +64,20 @@ int	is_map(char *line)
  */
 void	init_structs(t_game *game)
 {
+	int	i;
+
 	game->info.no = NULL;
 	game->info.so = NULL;
 	game->info.we = NULL;
 	game->info.ea = NULL;
-	game->info.floor = 0xFFFFFFFF;
-	game->info.ceiling = 0xFFFF;
+	game->info.floor = 0;
+	game->info.ceiling = 0;
 	game->map = NULL;
 	game->map_height = 0;
 	game->row_len = NULL;
+	game->mlx = NULL;
+	game->img = NULL;
+	i = -1;
+	while (++i < 4)
+		game->walls[i] = NULL;
 }

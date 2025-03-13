@@ -20,14 +20,12 @@ void	ft_free_map(char **map)
 	int	i;
 
 	i = 0;
-	if (!map || !(map[i]))
+	if (!map)
 		return ;
 	while (map[i])
 	{
 		free(map[i]);
 		i++;
-		if (!map[i])
-			return ;
 	}
 }
 
@@ -46,10 +44,22 @@ void	ft_error_msg(char *str, t_game *game)
  */
 void	free_strucs(t_game *game)
 {
+	int	i;
+
+	if (!game)
+		return ;
+	i = -1;
+	if (game->mlx)
+	{
+		while (++i < 4)
+			mlx_delete_image(game->mlx, game->walls[i]);
+		mlx_terminate(game->mlx);
+	}
 	if (game->map)
 	{
 		ft_free_map(game->map);
 		free(game->map);
 	}
+	free(game->row_len);
 	free_infos(&game->info);
 }
