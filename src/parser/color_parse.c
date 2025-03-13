@@ -1,34 +1,22 @@
 #include "parser.h"
 
-/*
-color_parse(line, game);
+uint32_t	parse_color(char *line, t_game *game)
 {
-	int flag_f;
-	char **values;
-	int i;
+	int	red;
+	int	green;
+	int	blue;
 
-	i = 0;
-	flag = 0;
-	while (ft_isspace(*line))
+	while (*line && ft_isspace(*line))
 		line++;
-	if (*line == 'F')
-		flag = 1;
-	line++;
-	while (ft_isspace(*line))
+	red = ft_atoi(line);
+	while ((*line && ft_isspace(*line)) || (*line && *line == ','))
 		line++;
-	values = ft_split(line, ',');
-	if (values)
-	{
-		while (values[i])
-			i++;
-		if (i != 3)
-			ft_error_msg("must be 3 colors\n");
-		i = 0;
-		while (i < 3)
-		{
-			if (strchr(values[i], ' '))
-				values[i] = remove_spaces(values[i]);
-			i++;
-		}
-	}
-}*/
+	green = ft_atoi(line);
+	while ((*line && ft_isspace(*line)) || (*line && *line == ','))
+		line++;
+	blue = ft_atoi(line);
+	if (red < 0 || red > 255 || green < 0 || green > 255 || blue < 0
+		|| blue > 255)
+		ft_error_msg("Invalid color value", game);
+	return (((0xFF << 24) | (red << 16) | (green << 8) | blue));
+}
