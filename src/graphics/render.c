@@ -74,7 +74,7 @@ char	get_map_element(t_game *game, t_vec2 *point, float angle)
 
 /**
  * Propagates the given ray it until an edge is hit or out of bounds.
- * Returns which face has been het if an edge is found, 0 otherwise.
+ * Returns which face has been hit if an edge is found, 0 otherwise.
  */
 char	raycast(t_game *game, t_vec2 *ray, float angle)
 {

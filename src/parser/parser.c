@@ -49,9 +49,9 @@ static void	fill_info(char *line, t_game *game)
 	else if (!ft_strncmp(line, "WE", 2))
 		game->info.we = find_init_end_path(line, game);
 	else if (!ft_strncmp(line, "C", 1))
-		game->info.ceiling = parse_color(line, game);
+		game->info.ceiling = parse_color(line + 1, game);
 	else if (!ft_strncmp(line, "F", 1))
-		game->info.floor = parse_color(line, game);
+		game->info.floor = parse_color(line + 1, game);
 	else
 		ft_error_msg("Error info configuration", game);
 }
@@ -122,9 +122,9 @@ void	init_map(char *file, t_game *game)
 {
 	if (!file)
 		ft_error_msg("error file", game);
-	if (ft_strncmp(file + (ft_strlen(file) - 4), ".cub", 4) != 0)
+	if (ft_strlen(file) >= 4 &&
+		ft_strncmp(file + (ft_strlen(file) - 4), ".cub", 4) != 0)
 		ft_error_msg("wrong file extension", game);
-	init_structs(game);
 	create_map(file, game);
 	validate_map(game);
 	calc_map_size(game);
