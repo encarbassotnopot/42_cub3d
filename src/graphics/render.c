@@ -9,7 +9,6 @@ void	find_next_edge(t_vec2 *current, float angle)
 	t_vec2	dest;
 	t_vec2	steps;
 
-	// finds the closest edge in each direction.
 	if (cosf(angle) > 0)
 		dest.i = floorf(current->i + 1);
 	else
@@ -18,7 +17,6 @@ void	find_next_edge(t_vec2 *current, float angle)
 		dest.j = floorf(current->j + 1);
 	else
 		dest.j = ceilf(current->j - 1);
-	// calculates how far away we are from each edge.
 	if (!cosf(angle))
 		steps.i = 10000;
 	else
@@ -27,9 +25,31 @@ void	find_next_edge(t_vec2 *current, float angle)
 		steps.j = 10000;
 	else
 		steps.j = (dest.j - current->j) / sinf(angle);
-	// update the current position
 	current->i += cosf(angle) * fmin(steps.i, steps.j);
 	current->j += sinf(angle) * fmin(steps.i, steps.j);
+}
+
+/**
+ * Returns which face has been hit.
+ */
+char	get_hit_face(int x, int y, t_vec2 *point, float angle)
+{
+	char	face;
+
+	face = 1;
+	if ((float)x + 1 == point->i)
+	{
+		face = 'W';
+		if (cosf(angle) < 0)
+			face = 'E';
+	}
+	if ((float)y + 1 == point->j)
+	{
+		face = 'N';
+		if (sinf(angle) < 0)
+			face = 'S';
+	}
+	return (face);
 }
 
 /**
@@ -42,27 +62,13 @@ char	get_map_element(t_game *game, t_vec2 *point, float angle)
 	int		y;
 	char	face;
 
-	face = 1;
 	x = floorf(point->i) - 1;
 	y = floorf(point->j) - 1;
-	if ((float)x + 1 == point->i)
-	{
-		face = 'W';
-		if (cosf(angle) < 0)
-		{
-			face = 'E';
-			x--;
-		}
-	}
-	if ((float)y + 1 == point->j)
-	{
-		face = 'N';
-		if (sinf(angle) < 0)
-		{
-			face = 'S';
-			y--;
-		}
-	}
+	face = get_hit_face(x, y, point, angle);
+	if (face == 'E')
+		x--;
+	if (face == 'S')
+		y--;
 	if (y >= game->map_height || y < 0)
 		return (0);
 	if (x >= game->row_len[y] || x < 0)

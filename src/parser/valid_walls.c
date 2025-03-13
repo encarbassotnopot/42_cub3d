@@ -2,8 +2,8 @@
 
 /**
  * Recursive function to perform a search across the entire map.
-
-	* fill the cells that are within the map boundaries and surrounded by walls with 'X'.
+ * fill the cells that are within the map boundaries and surrounded
+ * by walls with 'X'.
  * Error if it detects an area not enclosed.
  */
 static void	flood_fill(t_game *game, int i, int j, int rows)
@@ -20,6 +20,7 @@ static void	flood_fill(t_game *game, int i, int j, int rows)
 	flood_fill(game, i, j - 1, rows);
 	flood_fill(game, i, j + 1, rows);
 }
+
 /**
  * Validates that the map is fully enclosed by walls.
  * Calls flood_fill for each empty space.

@@ -1,8 +1,8 @@
 #include "parser.h"
 
 /**
-
-	* Skips the spaces to find the exact image path and checks that it exists before proceeding.
+ * Skips the spaces to find the exact image path
+ * and checks that it exists before proceeding.
  */
 static char	*find_init_end_path(char *line, t_game *game)
 {
@@ -31,6 +31,7 @@ static char	*find_init_end_path(char *line, t_game *game)
 	close(fd);
 	return (path);
 }
+
 /**
  * Analyzes the start of the line, skipping spaces,
  * 	and writes the corresponding info.
@@ -55,11 +56,12 @@ static void	fill_info(char *line, t_game *game)
 	else
 		ft_error_msg("Error info configuration", game);
 }
+
 /**
  * While the line is part of the map, it joins it into joined_lines.
  * If there is extra content at the end, it raises an error.
  * Once the map is finished or a '\n' is encountered,
- * 	it performs a split to create game->map.
+ * it performs a split to create game->map.
  */
 static void	fill_map(char *line, int fd, t_game *game)
 {
@@ -88,6 +90,7 @@ static void	fill_map(char *line, int fd, t_game *game)
 	game->map = ft_split(joined_lines, '\n');
 	free(joined_lines);
 }
+
 /**
  * Opens the file and processes each line according to whether it is a map,
  * 	info, or '\n'.
@@ -113,6 +116,7 @@ static void	create_map(char *file, t_game *game)
 	}
 	close(fd);
 }
+
 /**
  * Initializes t_game and validate inputs.
  */
