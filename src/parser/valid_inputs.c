@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_inputs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecoma-ba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ecoma-ba <ecoma-ba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 12:32:05 by ecoma-ba          #+#    #+#             */
-/*   Updated: 2025/03/13 12:32:05 by ecoma-ba         ###   ########.fr       */
+/*   Updated: 2025/03/13 13:30:28 by ecoma-ba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@
 void	validate_info(t_game *game)
 {
 	if (!game->info.no || !game->info.so || !game->info.we || !game->info.ea)
-		ft_error_msg("error, missing textures(NO, SO, WE, EA).", game);
+		ft_error_msg("Error, missing textures(NO, SO, WE, EA).", game);
+	if (!game->info.floor || !game->info.ceiling)
+		ft_error_msg("Error, missing colors.", game);
 }
 
 /**
