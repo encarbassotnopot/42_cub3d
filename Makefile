@@ -1,5 +1,5 @@
-SOURCES = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*/*.c) $(wildcard $(SRC_DIR)/*/*/*.c)
-SRC_FILES = $(SOURCES) #$(addprefix $(SRC_DIR)/,$(SOURCES))
+SOURCES = graphics/math/vector_operations.c graphics/render_utils.c graphics/mlx_entry.c graphics/render.c parser/color_parse.c parser/debuger_parser.c parser/get_next_line.c parser/init_strucs.c parser/valid_walls.c parser/parser.c parser/valid_inputs.c free_structs.c main.c 
+SRC_FILES = $(addprefix $(SRC_DIR)/,$(SOURCES))
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC_FILES))
 DEP_FILES = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.d,$(SRC_FILES))
 

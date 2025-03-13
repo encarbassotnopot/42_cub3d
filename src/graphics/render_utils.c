@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecoma-ba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ecoma-ba <ecoma-ba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 12:32:05 by ecoma-ba          #+#    #+#             */
-/*   Updated: 2025/03/13 12:32:05 by ecoma-ba         ###   ########.fr       */
+/*   Updated: 2025/03/13 14:01:24 by ecoma-ba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ uint32_t	get_wall_pixel(t_game *game, t_vec2 *impact, char orientation)
 	mlx_image_t	*wall;
 	int			x;
 	int			y;
+	uint32_t	inv;
 
 	if (orientation == 'N')
 		wall = game->walls[NORTH];
@@ -35,7 +36,9 @@ uint32_t	get_wall_pixel(t_game *game, t_vec2 *impact, char orientation)
 		wall = game->walls[EAST];
 	x = fmin(impact->i * wall->width, wall->width - 1);
 	y = fmin(impact->j * wall->height, wall->height - 1);
-	return (((uint32_t *)wall->pixels)[y * wall->width + x]);
+	inv = ((uint32_t *)wall->pixels)[y * wall->width + x];
+	return (((inv & 0xFF) << 24) | ((inv & 0xFF00) << 8)
+		| ((inv & 0xFF0000) >> 8) | (inv >> 24));
 }
 
 /**
