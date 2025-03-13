@@ -9,8 +9,6 @@ int	main(int argc, char **argv)
 		return (printf("error args\n"), -1);
 	init_structs(&game);
 	init_map(argv[1], &game);
-	debug_info(&game.info);
-	debug_map(game.map);
 	run_mlx(&game);
 	free_strucs(&game);
 	return (0);

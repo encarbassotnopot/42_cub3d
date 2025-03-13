@@ -8,21 +8,24 @@
 # endif
 
 // inits
-void	init_structs(t_game *game);
+void		init_structs(t_game *game);
 
 // validaters:
-void	validate_map(t_game *game);
-void	validate_info(t_game *game);
-void	validate_walls(t_game *game);
-void	calc_map_size(t_game *game);
+void		validate_map(t_game *game);
+void		validate_info(t_game *game);
+void		validate_walls(t_game *game);
+void		calc_map_size(t_game *game);
 
 // auxiliars
-char	*get_next_line(int fd);
-int		open_file(char *file, t_game *game);
-int		is_map(char *line);
-int		setup_player(t_game *game, int x, int y, char c);
+char		*get_next_line(int fd);
+int			open_file(char *file, t_game *game);
+int			is_map(char *line);
+int			setup_player(t_game *game, int x, int y, char c);
+uint32_t	parse_color(char *line, t_game *game);
 
 // debugers:
-void	debug_map(char **mapa);
+void		debug_map(char **mapa);
+void		printmap(t_game *game);
+void		print_playerpos(t_game *game);
 
 #endif
