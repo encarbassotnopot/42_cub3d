@@ -7,6 +7,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (printf("error args\n"), -1);
+	init_structs(&game);
 	init_map(argv[1], &game);
 	debug_info(&game.info);
 	debug_map(game.map);

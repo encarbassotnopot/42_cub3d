@@ -25,4 +25,6 @@ void	debug_info(t_info *info)
 	printf("SO: %s\n", info->so);
 	printf("WE: %s\n", info->we);
 	printf("EA: %s\n", info->ea);
+	printf("C: %04x\n", info->ceiling);
+	printf("F: %04x\n", info->floor);
 }

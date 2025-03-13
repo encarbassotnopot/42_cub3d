@@ -1,12 +1,5 @@
 #include "cub3d.h"
 
-// Exit the program as failure.
-static void	ft_error(void)
-{
-	fprintf(stderr, "%s", mlx_strerror(mlx_errno));
-	exit(EXIT_FAILURE);
-}
-
 void	ft_mov_key_hook(mlx_key_data_t keydata, t_game *game)
 {
 	float	mov_speed;
@@ -72,9 +65,6 @@ void	load_images(t_game *game)
 		if (ft_strlen(paths[i]) >= 4 && ft_strcmp(paths[i]
 				+ (ft_strlen(paths[i]) - 4), ".png") == 0)
 			texture = mlx_load_png(paths[i]);
-		else if (ft_strlen(paths[i]) >= 6 && ft_strcmp(paths[i]
-				+ (ft_strlen(paths[i]) - 6), ".xpm42") == 0)
-			texture = &mlx_load_xpm42(paths[i])->texture;
 		else
 			ft_error_msg("Invalid texture path\n", game);
 		if (!texture)
@@ -91,11 +81,11 @@ int32_t	run_mlx(t_game *game)
 	game->player.pos.j++;
 	game->mlx = mlx_init(WIDTH, HEIGHT, "cub3d", false);
 	if (!game->mlx)
-		ft_error_msg("Error initialising mlx\n", game);
+		ft_error_msg("Error initialising mlx", game);
 	load_images(game);
 	game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	if (!game->img || (mlx_image_to_window(game->mlx, game->img, 0, 0) < 0))
-		ft_error();
+		ft_error_msg("Error creating game image", game);
 	mlx_key_hook(game->mlx, (mlx_keyfunc)ft_key_hook, game);
 	render_scene(game);
 	mlx_loop(game->mlx);
