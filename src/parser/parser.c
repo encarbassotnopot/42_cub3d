@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecoma-ba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ecoma-ba <ecoma-ba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 12:32:05 by ecoma-ba          #+#    #+#             */
-/*   Updated: 2025/03/13 12:32:05 by ecoma-ba         ###   ########.fr       */
+/*   Updated: 2025/03/13 13:29:05 by ecoma-ba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,17 @@ static void	fill_info(char *line, t_game *game)
 {
 	while (ft_isspace(*line))
 		line++;
-	if (!ft_strncmp(line, "NO", 2))
+	if (!ft_strncmp(line, "NO", 2) && !game->info.no)
 		game->info.no = find_init_end_path(line, game);
-	else if (!ft_strncmp(line, "SO", 2))
+	else if (!ft_strncmp(line, "SO", 2) && !game->info.so)
 		game->info.so = find_init_end_path(line, game);
-	else if (!ft_strncmp(line, "EA", 2))
+	else if (!ft_strncmp(line, "EA", 2) && !game->info.ea)
 		game->info.ea = find_init_end_path(line, game);
-	else if (!ft_strncmp(line, "WE", 2))
+	else if (!ft_strncmp(line, "WE", 2) && !game->info.we)
 		game->info.we = find_init_end_path(line, game);
-	else if (!ft_strncmp(line, "C", 1))
+	else if (!ft_strncmp(line, "C", 1) && !game->info.ceiling)
 		game->info.ceiling = parse_color(line + 1, game);
-	else if (!ft_strncmp(line, "F", 1))
+	else if (!ft_strncmp(line, "F", 1) && !game->info.floor)
 		game->info.floor = parse_color(line + 1, game);
 	else
 		ft_error_msg("Error info configuration", game);
